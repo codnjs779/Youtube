@@ -2,15 +2,11 @@ import React, { Component } from "react";
 import Video from "./Video";
 
 class PopularVideo extends Component {
-    componentDidMount = async () => {
-        this.props.getPopularData();
-    };
-    tst = this.props.state;
-
     render() {
+        this.props.getPopularData();
         return (
             <>
-                <div>hello</div>
+                <div></div>
                 <Video />
             </>
         );
