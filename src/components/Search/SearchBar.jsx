@@ -5,15 +5,15 @@ class SearchBar extends Component {
     onSubmit = (e) => {
         e.preventDefault();
         const searchTxt = this.inputRef.current.value;
-        this.props.getSearchData(searchTxt);
         this.inputRef.current.value = "";
+        this.props.searchTxtController(searchTxt);
     };
     render() {
         return (
             <div className="searchBar">
                 <div className="youtubeTitle">
                     <i className="youtubeIcon fab fa-youtube"></i>
-                    <span className="logoTitle">Youtube</span>
+                    <div className="logoTitle">Youtube</div>
                 </div>
 
                 <form onSubmit={this.onSubmit}>

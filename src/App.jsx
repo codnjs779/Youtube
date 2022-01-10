@@ -1,6 +1,5 @@
 import "./App.css";
 import PopularVideo from "./components/PopularVideo";
-import SearchBar from "./components/SearchBar";
 import React, { Component } from "react";
 import axios from "axios";
 
@@ -9,9 +8,7 @@ class App extends Component {
 
     loadVideo = async () => {
         axios
-            .get("https://youtube.googleapis.com/youtube/v3/videos?part=snippet", {
-                params: { chart: "mostPopular", key: "AIzaSyAWKlLpR5ecm2BNpGBv1rq1quKqy7-UzRM" },
-            })
+            .get("https://files.cdn.thinkific.com/file_uploads/292401/attachments/ec1/532/b9a/videoList.json")
             .then(({ data }) => {
                 this.setState({
                     loading: true,
@@ -20,17 +17,19 @@ class App extends Component {
             })
             .catch((e) => {
                 console.log(e, "api 호출실패");
-                this.state.setState({ loading: false });
+                this.setState({ loading: false });
             });
     };
 
+    componentDidMount() {
+        this.loadVideo();
+    }
+
     render() {
+        const { videoList } = this.state;
         return (
             <>
-                <SearchBar />
-                <PopularVideo loadVideo={this.loadVideo} state={this.state} />
-                {/* 라우터처리 해주기 */}
-                {/* <DetailVideo /> */}
+                <PopularVideo videoList={videoList} />
             </>
         );
     }
