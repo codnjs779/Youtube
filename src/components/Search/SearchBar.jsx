@@ -1,15 +1,22 @@
-import React, { useRef, useState } from "react";
-import SearchList from "./SearchList";
+import React, { useRef } from "react";
 
-function SearchBar() {
+function SearchBar({ onSearch }) {
     const inputRef = useRef();
-    const [state, setState] = useState({ loading: false, searchList: "" });
 
-    const onSubmit = (e) => {
-        e.preventDefault();
+    const handleSearch = () => {
         const searchTxt = inputRef.current.value;
         inputRef.current.value = "";
-        setState({ searchList: searchTxt });
+        onSearch(searchTxt);
+    };
+
+    const onClick = () => {
+        handleSearch();
+    };
+
+    const onkeyPress = (event) => {
+        if (event.key === "Enter") {
+            handleSearch();
+        }
     };
 
     return (
@@ -19,13 +26,10 @@ function SearchBar() {
                 <div className="logoTitle">Youtube</div>
             </div>
 
-            <form onSubmit={onSubmit}>
-                <input type="search" ref={inputRef} className="searchBar_input" placeholder="Search.."></input>
-                <button type="submit" className="searchBar_btn">
-                    <i className="fas fa-search"></i>
-                </button>
-            </form>
-            <SearchList state={state.searchList} />
+            <input type="search" ref={inputRef} className="searchBar_input" placeholder="Search.." onKeyPress={onkeyPress}></input>
+            <button type="submit" className="searchBar_btn" onClick={onClick}>
+                <i className="fas fa-search"></i>
+            </button>
         </div>
     );
 }

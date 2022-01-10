@@ -1,42 +1,47 @@
 import "./App.css";
 import PopularVideo from "./components/PopularVideo";
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import axios from "axios";
 import SearchBar from "./components/Search/SearchBar";
-import SearchList from "./components/Search/SearchList";
 
-class App extends Component {
-    state = { loading: false, videoList: [] };
+function App() {
+    const [state, setState] = useState({ loading: false, videoList: [] });
 
-    loadVideo = async () => {
+    const search = (query) => {
         axios
-            .get("https://files.cdn.thinkific.com/file_uploads/292401/attachments/ec1/532/b9a/videoList.json")
+            .get("https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25", {
+                params: { q: query, type: "video", key: "AIzaSyDFxKWeMhElJnrL0VGaIpPdlbO_tMgcXWs" },
+            })
+
             .then(({ data }) => {
-                this.setState({
+                setState({ videoList: data.items });
+            })
+            .catch((e) => {
+                console.log(e, "api 호출실패");
+            });
+    };
+    useEffect(() => {
+        const loadVideo = axios
+            .get("https://youtube.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&key=AIzaSyDFxKWeMhElJnrL0VGaIpPdlbO_tMgcXWs")
+
+            .then(({ data }) => {
+                setState({
                     loading: true,
                     videoList: data.items,
                 });
             })
             .catch((e) => {
                 console.log(e, "api 호출실패");
-                this.setState({ loading: false });
+                setState({ loading: false });
             });
-    };
+    }, []);
 
-    componentDidMount() {
-        this.loadVideo();
-    }
-
-    render() {
-        const { videoList } = this.state;
-        return (
-            <>
-                {/* <SearchBar /> */}
-
-                <PopularVideo videoList={videoList} />
-            </>
-        );
-    }
+    return (
+        <>
+            <SearchBar onSearch={search} />
+            <PopularVideo videoList={state.videoList} />
+        </>
+    );
 }
 
 export default App;
