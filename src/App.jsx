@@ -2,6 +2,8 @@ import "./App.css";
 import PopularVideo from "./components/PopularVideo";
 import React, { Component } from "react";
 import axios from "axios";
+import SearchBar from "./components/Search/SearchBar";
+import SearchList from "./components/Search/SearchList";
 
 class App extends Component {
     state = { loading: false, videoList: [] };
@@ -29,6 +31,8 @@ class App extends Component {
         const { videoList } = this.state;
         return (
             <>
+                {/* <SearchBar /> */}
+
                 <PopularVideo videoList={videoList} />
             </>
         );
