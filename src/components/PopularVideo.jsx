@@ -3,14 +3,15 @@ import Video from "./Video";
 
 class PopularVideo extends Component {
     render() {
-        const { videoList } = this.props;
+        const { videoList, onVideoClick } = this.props;
+        console.log(`onVideoClick`, onVideoClick);
 
         return (
             <>
                 <ul className="popularVideo_list">
                     {videoList &&
                         videoList.map((videoItem) => {
-                            return <Video key={videoItem.etag} videoItem={videoItem.snippet} />;
+                            return <Video key={videoItem.etag} baseVideoItem={videoItem} videoItem={videoItem.snippet} onVideoClick={onVideoClick} />;
                         })}
                 </ul>
             </>

@@ -1,12 +1,18 @@
 import "./App.css";
 import PopularVideo from "./components/PopularVideo";
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import SearchBar from "./components/Search/SearchBar";
+import VideoDetail from "./components/video_detail/video_detail";
 
 function App() {
     const [state, setState] = useState({ loading: false, videoList: [] });
+    const [selected, setSelected] = useState();
 
+    const selectVideo = (video) => {
+        setSelected(video);
+        console.log("app-selectedVideo", video);
+    };
     const search = (query) => {
         axios
             .get("https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25", {
@@ -21,7 +27,7 @@ function App() {
             });
     };
     useEffect(() => {
-        const loadVideo = axios
+        axios
             .get("https://youtube.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&key=AIzaSyDFxKWeMhElJnrL0VGaIpPdlbO_tMgcXWs")
 
             .then(({ data }) => {
@@ -37,10 +43,21 @@ function App() {
     }, []);
 
     return (
-        <>
+        <div className="app">
             <SearchBar onSearch={search} />
-            <PopularVideo videoList={state.videoList} />
-        </>
+
+            <section className="app_section">
+                {selected && (
+                    <div className="app_section_detail">
+                        <VideoDetail selected={selected} />
+                    </div>
+                )}
+
+                <div className="app_section_list">
+                    <PopularVideo videoList={state.videoList} onVideoClick={selectVideo} />
+                </div>
+            </section>
+        </div>
     );
 }
 

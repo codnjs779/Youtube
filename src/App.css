@@ -4,6 +4,10 @@
     --red-signature-color: #ff0000;
 }
 
+.app {
+    max-width: 80rem;
+}
+
 .searchBar {
     display: flex;
     width: 100%;
@@ -50,11 +54,10 @@ form {
 }
 
 .popularVideo_list {
-    display: flex;
-    flex-wrap: wrap;
 }
 
 .video_item {
+    display: flex;
     list-style: none;
     margin: 10px 10px 10px 30px;
     border: solid 1px lightgray;
@@ -69,6 +72,18 @@ form {
     display: flex;
 }
 .playVideo_title {
-    width: 400px;
+    width: inherit;
     margin: 0 10px 0 20px;
+}
+
+.app_section {
+    display: flex;
+}
+
+.app_section_detail {
+    flex: 1 1 70%;
+}
+
+.app_section_list {
+    flex: 1 1 30%;
 }
